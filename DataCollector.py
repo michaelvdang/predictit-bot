@@ -16,8 +16,9 @@ class DataCollector:
         now = datetime.now()
         date_string = now.strftime("%Y-%m-%d-%H-%M-%S")
         date_filename = date_string + ".txt"
+        full_filepath = "data_logs/" + date_filename
 
-        with open(date_filename, "w") as text_file:
+        with open(full_filepath, "w") as text_file:
             print(self.response.content, file=text_file)
 
     @property
