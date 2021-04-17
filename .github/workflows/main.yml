@@ -1,0 +1,41 @@
+name: main
+
+on:
+  schedule:
+    - cron: "0 15 * * *" # runs every day at 3pm
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          # Semantic version range syntax or exact version of a Python version
+          python-version: '3.8' 
+          # Optional - x64 or x86 architecture, defaults to x64
+          architecture: 'x64' 
+      # You can test your matrix by printing the current Python version
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+      - name: Git checkout
+        uses: actions/checkout@v2
+        with: { ref: master }
+      - name: Update data
+        run: |
+          bash run.sh
+      - name: Commit files
+        run: |
+          git config --local user.name "dalton-b"
+          git commit -m "Add changes" -a
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+
