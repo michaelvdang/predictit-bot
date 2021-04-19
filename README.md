@@ -12,4 +12,4 @@ pip3 install -r requirements.txt
 python3 Driver.py
 
 # When you're done, exit the virtual environment with
-deactivate```
+deactivate
