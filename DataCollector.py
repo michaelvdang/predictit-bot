@@ -1,5 +1,3 @@
-# Python program showing the use of
-# @property
 import requests
 from datetime import datetime
 
@@ -13,12 +11,10 @@ class DataCollector:
         self.response = requests.get(self._endpoint)
 
     def export_content(self):
-        now = datetime.now()
-        date_string = now.strftime("%Y-%m-%d-%H-%M-%S")
-        date_filename = date_string + ".txt"
-        full_filepath = "data_logs/" + date_filename
+        current_time = get_current_time()
+        data_filepath = create_data_filepath(current_time)
 
-        with open(full_filepath, "w") as text_file:
+        with open(data_filepath, "w") as text_file:
             print(self.response.content, file=text_file)
 
     @property
@@ -28,3 +24,14 @@ class DataCollector:
     @response.setter
     def response(self, response):
         self._response = response
+
+
+def get_current_time():
+    current_time = datetime.now()
+    current_time_string = current_time.strftime("%Y-%m-%d-%H-%M-%S")
+    return current_time_string
+
+
+def create_data_filepath(currnet_time):
+    full_filepath = "data_logs/" + currnet_time + ".txt"
+    return full_filepath
