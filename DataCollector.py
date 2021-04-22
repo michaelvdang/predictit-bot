@@ -1,5 +1,6 @@
 import requests
 from datetime import datetime
+import json
 
 
 class DataCollector:
@@ -15,7 +16,7 @@ class DataCollector:
         data_filepath = create_data_filepath(current_time)
 
         with open(data_filepath, "w") as text_file:
-            print(self.response, file=text_file)
+            json.dump(self.response, text_file)
 
     @property
     def response(self):
