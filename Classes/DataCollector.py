@@ -1,3 +1,4 @@
+import json
 import requests
 from datetime import datetime
 import json
@@ -7,9 +8,12 @@ class DataCollector:
     def __init__(self):
         self._endpoint = 'https://www.predictit.org/api/marketdata/all/'
         self._response = None
+        self._status_code = None
 
     def collect_data(self):
-        self.response = requests.get(self._endpoint).json()
+        raw_response = requests.get(self._endpoint)
+        self._response = raw_response.json()
+        self._status_code = raw_response.status_code
 
     def export_content(self):
         current_time = get_current_time()
@@ -26,6 +30,10 @@ class DataCollector:
     def response(self, response):
         self._response = response
 
+    @property
+    def status_code(self):
+        return self._status_code
+
 
 def get_current_time():
     current_time = datetime.now()
@@ -33,6 +41,6 @@ def get_current_time():
     return current_time_string
 
 
-def create_data_filepath(currnet_time):
-    full_filepath = "data_logs/" + currnet_time + ".txt"
+def create_data_filepath(current_time):
+    full_filepath = "data_logs/" + current_time + ".txt"
     return full_filepath
