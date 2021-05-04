@@ -1,6 +1,6 @@
 from Classes.FileManager import FileManager
 from datetime import datetime
-
+import pytz
 
 class HTMLWriter:
 
@@ -13,7 +13,7 @@ class HTMLWriter:
 \t\t<div>
 \t\t\t<h1>Hello world!</h1>
 \t\t\t<p>This is my PredictIt project.</p>
-\t\t\t<p>This page was last updated at: """ + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + """
+\t\t\t<p>This page was last updated at UTC-5: """ + datetime.now(tz=pytz.UTC).astimezone((pytz.timezone('US/Central'))).strftime("%Y-%m-%d %H:%M:%S") + """
 \t\t</div>
 \t</body>
 </html>"""
